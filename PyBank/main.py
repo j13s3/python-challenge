@@ -1,4 +1,4 @@
-# Module 3 - Python Challenge - PyBank Analysis
+# Module 3 - Python Challenge - PyBank Analysis - Jalaj Sharma
 
 # Importing python modules
 import csv
@@ -34,10 +34,7 @@ with open(budget_data_path) as input_data:
         # Aggregate the total amount of money
         total_money = total_money + int(row[1])
 
-        # Populate the list with the montly profits/losses
-        monthly_profits.append(int(row[1]))
-
-        # Use IF statements to evaluate the minimum and maximum along with the corresponding month
+        # Use IF statements to evaluate the minimum and maximum along with the corresponding month instead of using the in-built min/max functions. This way is preferred as it simplifies finding the corresponding month as the data is evaluated row by row
         if ((int(row[1])) > profit_grt_inc_money):
             profit_grt_inc_money = int(row[1])
             profit_grt_inc_month = row[0]
@@ -45,9 +42,6 @@ with open(budget_data_path) as input_data:
         if ((int(row[1])) < profit_grt_dec_money):
             profit_grt_dec_money = int(row[1])
             profit_grt_dec_month = row[0]
-    
-    # Always good to close a file once done with it
-    input_data.close()
 
 # With all the data collected from the raw data file, calculate the average profit/loss
 avg_chng = round((total_money / total_months), 2)
@@ -58,8 +52,8 @@ print("----------------------------")
 print(f"Total Months: {total_months}")
 print(f"Total: {total_money}")
 print(f"Average Change: {avg_chng}")
-print(f"Greatest Greatest Increase in Profits: {profit_grt_inc_month} (${profit_grt_inc_money})")
-print(f"Greatest Greatest Increase in Profits: {profit_grt_dec_month} (${profit_grt_dec_money})")
+print(f"Greatest Increase in Profits: {profit_grt_inc_month} (${profit_grt_inc_money})")
+print(f"Greatest Decrease in Profits: {profit_grt_dec_month} (${profit_grt_dec_money})")
 
 # Open/create the file usng the file path and write into the file
 with open(text_output_path, "w") as output_text:
@@ -69,8 +63,5 @@ with open(text_output_path, "w") as output_text:
     output_text.write(f"\nTotal Months: {total_months}")
     output_text.write(f"\nTotal: {total_money}")
     output_text.write(f"\nAverage Change: {avg_chng}")
-    output_text.write(f"\nGreatest Greatest Increase in Profits: {profit_grt_inc_month} (${profit_grt_inc_money})")
-    output_text.write(f"\nGreatest Greatest Increase in Profits: {profit_grt_dec_month} (${profit_grt_dec_money})")
-
-    # Always good to close a file once done with it
-    output_text.close()
+    output_text.write(f"\nGreatest Increase in Profits: {profit_grt_inc_month} (${profit_grt_inc_money})")
+    output_text.write(f"\nGreatest Decrease in Profits: {profit_grt_dec_month} (${profit_grt_dec_money})")
