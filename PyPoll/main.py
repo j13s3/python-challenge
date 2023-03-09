@@ -9,9 +9,6 @@ poll_data_path = os.path.join("Resources", "election_data.csv")
 # Declaring the file path for the analysis text output
 text_output_path = os.path.join("analysis", "text_output.txt")
 
-# Initialising variables for calculations
-total_votes = 0
-
 # List for recording the candidate names
 candidate_names = []
 
@@ -25,13 +22,14 @@ with open(poll_data_path) as input_data:
     # With the header out of the way, start reading one row at a time
     for row in read_data:
 
-        # Increment the total votes counter
-        total_votes = total_votes + 1
-
         # Add all the names voted to a list
+        # With this list of names, all required information can be obtained
         candidate_names.append(row[2])
 
-# With the names voted list prepared, remove all duplicates
+total_votes = len(candidate_names)
+
+# With the candidates voted list prepared, remove all duplicates.
+# This also allows for tackling any number of unique candidates, not just three
 # https://www.w3schools.com/python/python_howto_remove_duplicates.asp
 candidate_names_no_duplicates = list(dict.fromkeys(candidate_names))
 
