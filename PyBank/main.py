@@ -14,9 +14,7 @@ total_months = 0
 total_money = 0
 profit_grt_inc_money = 0
 profit_grt_dec_money = 0
-
-# List for recording the monthly profits/losses
-monthly_profits = []
+total_profit_loss_change = 0
 
 # Open the file usng the file path and read the data by setting ',' as the delimiter
 with open(budget_data_path) as input_data:
@@ -33,18 +31,29 @@ with open(budget_data_path) as input_data:
 
         # Aggregate the total amount of money
         total_money = total_money + int(row[1])
-
-        # Use IF statements to evaluate the minimum and maximum along with the corresponding month instead of using the in-built min/max functions. This way is preferred as it simplifies finding the corresponding month as the data is evaluated row by row
-        if ((int(row[1])) > profit_grt_inc_money):
-            profit_grt_inc_money = int(row[1])
-            profit_grt_inc_month = row[0]
         
-        if ((int(row[1])) < profit_grt_dec_money):
-            profit_grt_dec_money = int(row[1])
-            profit_grt_dec_month = row[0]
+        # Perform the computations below after the first month so that changes in profit/loss can be captured
+        if (total_months > 1):
+
+            # Capture the profit/loss change from the previous month
+            profit_loss_change = int(row[1]) - prev_profit_loss
+
+            # Totalise the change in profit/loss
+            total_profit_loss_change = total_profit_loss_change + profit_loss_change
+
+            # Use IF statements to evaluate the minimum and maximum along with the corresponding month instead of using the in-built min/max functions. This way is preferred as it simplifies finding the corresponding month as the data is evaluated row by row and creating a new appended list is not required
+            if (profit_loss_change) > profit_grt_inc_money:
+                profit_grt_inc_money = profit_loss_change
+                profit_grt_inc_month = row[0]
+            
+            if (profit_loss_change) < profit_grt_dec_money:
+                profit_grt_dec_money = profit_loss_change
+                profit_grt_dec_month = row[0]
+        
+        prev_profit_loss = int(row[1])
 
 # With all the data collected from the raw data file, calculate the average profit/loss
-avg_chng = round((total_money / total_months), 2)
+avg_chng = round((total_profit_loss_change / (total_months - 1)), 2)
 
 # Print the data to the terminal
 print("\nFinancial Analysis")

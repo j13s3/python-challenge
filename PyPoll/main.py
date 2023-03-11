@@ -20,11 +20,9 @@ with open(poll_data_path) as input_data:
     read_data_header = next(read_data)
 
     # With the header out of the way, start reading one row at a time
-    for row in read_data:
-
-        # Add all the names voted to a list
-        # With this list of names, all required information can be obtained
-        candidate_names.append(row[2])
+    # Using list comprehension, add all the names voted to an empty list
+    # With this list of names, all required information can be obtained
+    candidate_names = [row[2] for row in read_data]
 
 total_votes = len(candidate_names)
 
@@ -41,6 +39,7 @@ candidate_votes_percent = [0] * len(candidate_names_no_duplicates)
 print("\nElection Results")
 print("----------------------------")
 print(f"Total Votes: {total_votes}")
+print("----------------------------")
 
 # Use a loop to go through the unique candidates lists
 for i in range(len(candidate_names_no_duplicates)):
@@ -69,6 +68,7 @@ with open(text_output_path, "w") as output_text:
     output_text.write("Election Results")
     output_text.write("\n----------------------------")
     output_text.write(f"\nTotal Votes: {total_votes}")
+    output_text.write("\n----------------------------")
 
     for i in range(len(candidate_names_no_duplicates)):
         output_text.write(f"\n{candidate_names_no_duplicates[i]}: {candidate_votes_percent[i]}% ({candidate_votes[i]})")
